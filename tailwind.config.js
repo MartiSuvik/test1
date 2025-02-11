@@ -1,8 +1,13 @@
-/** @type {import('tailwindcss').Config} */
 import aspectRatio from '@tailwindcss/aspect-ratio';
+import relumeTailwind from '@relume_io/relume-tailwind';
 
+/** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@relume_io/relume-ui/dist/**/*.{js,ts,jsx,tsx}'
+  ],
   theme: {
     extend: {
       colors: {
@@ -15,6 +20,7 @@ export default {
       },
     },
   },
+  presets: [relumeTailwind],
   plugins: [
     aspectRatio,
   ],

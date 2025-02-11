@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import Collections from '../components/Collections';
@@ -26,9 +26,20 @@ function Home() {
     window.scrollTo(0, 0);
   }, []);
 
+  function triggerFooterContact(): void {
+    const footerElement = document.querySelector('#footer');
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   return (
     <div className="relative min-h-screen bg-white">
-      <Navbar isScrolled={isScrolled} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      <Navbar 
+        isScrolled={isScrolled} 
+        isMenuOpen={isMenuOpen} 
+        setIsMenuOpen={setIsMenuOpen}
+        triggerFooterContact={triggerFooterContact}
+      />
       <main className="pb-16">
         <Hero />
         <Projects />

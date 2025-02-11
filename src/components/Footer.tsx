@@ -13,7 +13,7 @@ interface FormData {
   message: string;
 }
 
-const Footer = forwardRef<HTMLDivElement, {}>((props, ref) => {
+const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -23,7 +23,6 @@ const Footer = forwardRef<HTMLDivElement, {}>((props, ref) => {
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
-  const footerRef = useRef<HTMLDivElement>(null);
   const expandedContentRef = useRef<HTMLDivElement>(null);
   const scrollManager = useScrollManager();
   const location = useLocation();
@@ -92,6 +91,7 @@ const Footer = forwardRef<HTMLDivElement, {}>((props, ref) => {
 
   return (
     <footer
+      id="footer"
       ref={ref}  // Ref attached here
       className={`fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-lg transition-all duration-300 ease-out transform ${
         isVisible ? 'translate-y-0' : 'translate-y-full'
@@ -114,14 +114,14 @@ const Footer = forwardRef<HTMLDivElement, {}>((props, ref) => {
           </Link>
 
           <div className="flex items-center space-x-6">
-<button
-  onClick={() => setIsExpanded(!isExpanded)}
-  data-footer-contact
-  className="px-6 py-2 bg-[#C5A267] hover:bg-[#B49157] text-white text-sm font-medium rounded-lg transition-all duration-200 flex items-center space-x-2"
->
-  <span>Contact Us</span>
-  {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
-</button>
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              data-footer-contact
+              className="px-6 py-2 bg-[#C5A267] hover:bg-[#B49157] text-white text-sm font-medium rounded-lg transition-all duration-200 flex items-center space-x-2"
+            >
+              <span>Contact Us</span>
+              {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
+            </button>
 
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

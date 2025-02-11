@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -6,13 +6,15 @@ interface NavbarProps {
   isScrolled: boolean;
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
+  triggerFooterContact: () => void;
 }
 
 const menuItems = [
   { title: 'PROJECTS', href: '#projects', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/2_olbmkz.png' },
   { title: 'ITALIAN CRAFTSMANSHIP', href: '#italian-craftsmanship', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/1_eooofq.png' },
   { title: 'HISTORY', href: '#history', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/3_lirws2.png' },
-  { title: 'SUSTAINABILITY', href: '/sustainability', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/sustainability_2_vyrldt.avif' }
+  { title: 'SUSTAINABILITY', href: '/sustainability', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/sustainability_2_vyrldt.avif' },
+  { title: 'CONTACT', href: '#footer', image: 'https://images.unsplash.com/photo-1567016557389-5246a1940bdc?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
 ];
 
 const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }) => {
@@ -28,6 +30,12 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }
 
   const isHomePage = location.pathname === '/';
 
+  function triggerFooterContact() {
+    const footerElement = document.getElementById('footer');
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
   return (
     <>
       <nav
@@ -51,15 +59,18 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }
               />
             </Link>
             
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md transition-all duration-300 ${
-                isScrolled ? 'text-[#2D2D2D]' : 'text-white'
-              } hover:scale-110`}
-              aria-label="Menu"
-            >
-              <Menu className="w-8 h-8 md:w-5 md:h-5" />
-            </button>
+            <div className="flex items-center space-x-4">
+              <span className={`text-lg font-serif ${isScrolled ? 'text-[#2D2D2D]' : 'text-white'}`}>MENU</span>
+              <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className={`inline-flex items-center justify-center p-2 rounded-md transition-all duration-300 ${
+                  isScrolled ? 'text-[#2D2D2D]' : 'text-white'
+                } hover:scale-110`}
+                aria-label="Menu"
+              >
+                <Menu className="w-10 h-10 md:w-8 md:h-8" />
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -81,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }
             className="absolute top-8 right-8 text-[#2D2D2D] hover:scale-110 transition-transform duration-200 z-50"
             aria-label="Close menu"
           >
-            <X className="w-6 h-6" />
+            <X className="w-8 h-8" />
           </button>
 
           <div 
@@ -106,50 +117,57 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }
           </div>
 
           <div className="w-[300px] bg-white flex flex-col h-full">
-            <div className="pt-12 pb-8 px-12">
+            <div className="pt-12 pb-8 px-12 flex justify-center items-center">
               <img 
                 src="https://res.cloudinary.com/dnddesigncenter/image/upload/D_D_h52kdi.svg" 
                 alt="D&D Design Center" 
-                className="w-32 mx-auto brightness-0"
+                className="w-32 brightness-0"
               />
             </div>
 
             <nav className="flex-1 px-12 flex flex-col justify-center space-y-8">
-              {menuItems.map((item, index) => (
-                item.href.startsWith('#') && !isHomePage ? (
-                  <Link
-                    key={item.title}
-                    to={`/${item.href}`}
-                    className="block text-[20px] font-serif text-[#2D2D2D] hover:text-[#C5A267] transition-colors duration-200"
-                    onClick={handleClose}
-                    onMouseEnter={() => {
-                      setActiveItem(index);
-                      setIsHovered(true);
-                    }}
-                    onMouseLeave={() => {
-                      setIsHovered(false);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                ) : (
-                  <Link
-                    key={item.title}
-                    to={item.href}
-                    className="block text-[20px] font-serif text-[#2D2D2D] hover:text-[#C5A267] transition-colors duration-200"
-                    onClick={handleClose}
-                    onMouseEnter={() => {
-                      setActiveItem(index);
-                      setIsHovered(true);
-                    }}
-                    onMouseLeave={() => {
-                      setIsHovered(false);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                )
-              ))}
+            {menuItems.map((item, index) => {
+              const handleItemClick = () => {
+                handleClose();
+                if (item.title === 'CONTACT') {
+                  triggerFooterContact();
+                }
+              };
+
+              return item.href.startsWith('#') && !isHomePage ? (
+                <Link
+                  key={item.title}
+                  to={`/${item.href}`}
+                  className="block text-[20px] font-serif text-[#2D2D2D] hover:text-[#C5A267] transition-colors duration-200"
+                  onClick={handleItemClick}
+                  onMouseEnter={() => {
+                    setActiveItem(index);
+                    setIsHovered(true);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHovered(false);
+                  }}
+                >
+                  {item.title}
+                </Link>
+              ) : (
+                <Link
+                  key={item.title}
+                  to={item.href}
+                  className="block text-[20px] font-serif text-[#2D2D2D] hover:text-[#C5A267] transition-colors duration-200"
+                  onClick={handleItemClick}
+                  onMouseEnter={() => {
+                    setActiveItem(index);
+                    setIsHovered(true);
+                  }}
+                  onMouseLeave={() => {
+                    setIsHovered(false);
+                  }}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
             </nav>
           </div>
         </div>

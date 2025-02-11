@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Sustainability from './pages/Sustainability';
 import HowWeWork from './pages/HowWeWork';
+import Projects from "./pages/Projects";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sustainability" element={<Sustainability />} />
         <Route path="/how-we-work" element={<HowWeWork />} />
+        <Route path="/projects" element={<Projects />} />
       </Routes>
     </Router>
   );
