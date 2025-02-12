@@ -10,7 +10,7 @@ interface NavbarProps {
 }
 
 const menuItems = [
-  { title: 'PROJECTS', href: '#projects', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/2_olbmkz.png' },
+  { title: 'PROJECTS', href: '/projects', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/2_olbmkz.png' },
   { title: 'ITALIAN CRAFTSMANSHIP', href: '#italian-craftsmanship', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/1_eooofq.png' },
   { title: 'HISTORY', href: '#history', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/3_lirws2.png' },
   { title: 'SUSTAINABILITY', href: '/sustainability', image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/sustainability_2_vyrldt.avif' },

@@ -1,8 +1,6 @@
 "use client";
 
 import { Button } from "@relume_io/relume-ui";
-import React from "react";
-import { RxChevronRight } from "react-icons/rx";
 
 export function Portfolio6() {
   return (
@@ -58,15 +56,6 @@ export function Portfolio6() {
                 </a>
               </li>
             </ul>
-            <Button
-              title="View project"
-              variant="link"
-              size="link"
-              iconRight={<RxChevronRight />}
-              className="mt-5 md:mt-6"
-            >
-              <a href="#">View project</a>
-            </Button>
           </article>
           <article className="mb-12 break-inside-avoid">
             <div className="mb-5 md:mb-6">
@@ -110,15 +99,6 @@ export function Portfolio6() {
                 </a>
               </li>
             </ul>
-            <Button
-              title="View project"
-              variant="link"
-              size="link"
-              iconRight={<RxChevronRight />}
-              className="mt-5 md:mt-6"
-            >
-              <a href="#">View project</a>
-            </Button>
           </article>
           <article className="mb-12 break-inside-avoid">
             <div className="mb-5 md:mb-6">
@@ -160,15 +140,6 @@ export function Portfolio6() {
                 </a>
               </li>
             </ul>
-            <Button
-              title="View project"
-              variant="link"
-              size="link"
-              iconRight={<RxChevronRight />}
-              className="mt-5 md:mt-6"
-            >
-              <a href="#">View project</a>
-            </Button>
           </article>
           <article className="mb-12 break-inside-avoid">
             <div className="mb-5 md:mb-6">
@@ -210,15 +181,6 @@ export function Portfolio6() {
                 </a>
               </li>
             </ul>
-            <Button
-              title="View project"
-              variant="link"
-              size="link"
-              iconRight={<RxChevronRight />}
-              className="mt-5 md:mt-6"
-            >
-              <a href="#">View project</a>
-            </Button>
           </article>
         </div>
         <div className="mt-12 flex justify-center md:mt-18 lg:mt-20">

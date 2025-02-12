@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useScrollManager } from '../hooks/useScrollManager';
-import ImageGallery from './ImageGallery';
+import { useState, useEffect, useRef } from "react";
+import { X } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useScrollManager } from "../hooks/useScrollManager";
+import ImageGallery from "./ImageGallery";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,72 +24,95 @@ interface Style {
 const styles: Style[] = [
   {
     id: 1,
-    name: 'Modern',
+    name: "Modern",
   },
   {
     id: 2,
-    name: 'Traditional',
+    name: "Traditional",
   },
   {
     id: 3,
-    name: 'Ardeco',
+    name: "Ardeco",
   },
 ];
 
 const projectOptions: ProjectOption[] = [
   {
     id: 1,
-    title: 'Living Room',
-    subtitle: 'Elegant Comfort',
-    description: 'Experience the perfect blend of luxury and comfort in our meticulously designed living spaces.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/Living%20Room/livingroom_traditional_5.avif',
-    hasContent: true
+    title: "Kitchen",
+    subtitle: "Culinary Excellence",
+    description:
+      "Modern kitchens designed for both functionality and aesthetics.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/Kitchen/kitchen_modern_5.jpg",
+    hasContent: true,
   },
   {
     id: 2,
-    title: 'Kitchen',
-    subtitle: 'Culinary Excellence',
-    description: 'Modern kitchens designed for both functionality and aesthetics.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/Kitchen/kitchen_modern_5.jpg',
-    hasContent: true
+    title: "Living",
+    subtitle: "Elegant Comfort",
+    description:
+      "Experience the perfect blend of luxury and comfort in our meticulously designed living spaces.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/Living%20Room/livingroom_traditional_5.avif",
+    hasContent: true,
   },
   {
     id: 3,
-    title: 'Dining Area',
-    subtitle: 'Sophisticated Dining',
-    description: 'Create memorable moments in our elegantly designed dining spaces.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/3e48fefc776aeb5c41fc951ab88a7d85_xgf8bc.jpg',
-    hasContent: true
+    title: "Dining",
+    subtitle: "Sophisticated Dining",
+    description:
+      "Create memorable moments in our elegantly designed dining spaces.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/3e48fefc776aeb5c41fc951ab88a7d85_xgf8bc.jpg",
+    hasContent: true,
   },
   {
     id: 4,
-    title: 'Bedroom',
-    subtitle: 'Luxury Designs',
-    description: 'Transform your bedroom into a personal sanctuary.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/Bedroom/bedroom_modern_1.avif',
-    hasContent: true
+    title: "Bedroom",
+    subtitle: "Luxury Designs",
+    description: "Transform your bedroom into a personal sanctuary.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/Bedroom/bedroom_modern_1.avif",
+    hasContent: true,
   },
   {
     id: 5,
-    title: 'Bath',
-    subtitle: 'Inner peace of Italy',
-    description: 'Luxurious bathrooms that combine functionality with spa-like tranquility.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/Greenery-as-fresh-bathroom-decor-ideas-by-Decorilla-designer-Casey-H._i7fhfe.jpg',
-    hasContent: true
+    title: "Lighting",
+    subtitle: "Outshine the standard",
+    description:
+      "Illuminate your space with our carefully curated lighting solutions.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/led-lighting-1_0_sklvzy.jpg",
+    hasContent: true,
   },
   {
     id: 6,
-    title: 'Lighting',
-    subtitle: 'Outshine the standard',
-    description: 'Illuminate your space with our carefully curated lighting solutions.',
-    image: 'https://res.cloudinary.com/dnddesigncenter/image/upload/led-lighting-1_0_sklvzy.jpg',
-    hasContent: true
-  }
+    title: "Bath",
+    subtitle: "Inner peace of Italy",
+    description:
+      "Luxurious bathrooms that combine functionality with spa-like tranquility.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/Greenery-as-fresh-bathroom-decor-ideas-by-Decorilla-designer-Casey-H._i7fhfe.jpg",
+    hasContent: true,
+  },
+  {
+    id: 7,
+    title: "Outdoor",
+    subtitle: "Outdoor Elegance",
+    description:
+      "Beautifully designed outdoor spaces for relaxation and entertainment.",
+    image:
+      "https://res.cloudinary.com/dnddesigncenter/image/upload/Outdoor/outdoor_space.jpg",
+    hasContent: true,
+  },
 ];
 
 const Projects = () => {
   const [activeId, setActiveId] = useState<number>(1);
-  const [selectedOption, setSelectedOption] = useState<ProjectOption | null>(null);
+  const [selectedOption, setSelectedOption] = useState<ProjectOption | null>(
+    null,
+  );
   const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
@@ -152,29 +175,33 @@ const Projects = () => {
   return (
     <section
       ref={sectionRef}
-      id="projects" 
+      id="projects"
       className="relative min-h-screen bg-white py-20"
     >
       <div className="max-w-7xl mx-auto px-4 mb-12">
         <h2 className="text-4xl font-serif text-center">Project Portfolio</h2>
       </div>
 
-      <div ref={cardsRef} className="flex gap-4 p-8 w-full max-w-6xl mx-auto h-[600px]">
+      <div
+        ref={cardsRef}
+        className="flex gap-4 p-8 w-full max-w-6xl mx-auto h-[600px]"
+      >
         {projectOptions.map((project) => (
           <div
             key={project.id}
             className={`relative flex-1 min-w-0 rounded-2xl overflow-hidden cursor-pointer transition-all duration-500 ease-out ${
-              activeId === project.id ? 'flex-[2.5]' : 'flex-[0.5]'
+              activeId === project.id ? "flex-[2.5]" : "flex-[0.5]"
             }`}
             onClick={() => handleOptionClick(project)}
           >
             {/* Background image container */}
             <div className="absolute inset-0">
-              <div 
+              <div
                 className="w-full h-full bg-cover bg-center transition-transform duration-500"
                 style={{
                   backgroundImage: `url(${project.image})`,
-                  transform: activeId === project.id ? 'scale(1)' : 'scale(1.2)',
+                  transform:
+                    activeId === project.id ? "scale(1)" : "scale(1.2)",
                 }}
               />
             </div>
@@ -184,29 +211,35 @@ const Projects = () => {
 
             {/* Pulse overlay for active card */}
             {activeId === project.id && (
-              <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-white/80 pointer-events-none z-10 opacity-0 transition-opacity duration-300 ${
-                showInitialAnimation ? 'animate-[initialPulse_1s_ease-in-out_2]' : 'animate-[continuousPulse_2s_ease-in-out_infinite]'
-              }`} />
+              <div
+                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-white/80 pointer-events-none z-10 opacity-0 transition-opacity duration-300 ${
+                  showInitialAnimation
+                    ? "animate-[initialPulse_1s_ease-in-out_2]"
+                    : "animate-[continuousPulse_2s_ease-in-out_infinite]"
+                }`}
+              />
             )}
 
-{/* Card content */}
-<div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-b from-transparent to-black/70">
-  {/* Collapsed state title */}
-  {activeId !== project.id && (
-    <div className="absolute inset-0 flex items-center justify-center p-3">
-      <h3 className="text-white text-center text-lg font-serif leading-tight line-clamp-2 drop-shadow-lg"
-          style={{ 
-            lineHeight: '1.2',
-            wordBreak: 'break-word',
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: '2',
-            WebkitBoxOrient: 'vertical'
-          }}>
-        {project.title}
-      </h3>
-    </div>
-  )}
+            {/* Card content */}
+            <div className="absolute inset-0 p-8 flex flex-col justify-end bg-gradient-to-b from-transparent to-black/70">
+              {/* Collapsed state title */}
+              {activeId !== project.id && (
+                <div className="absolute inset-0 flex items-center justify-center p-3">
+                  <h3
+                    className="text-white text-center text-lg font-serif leading-tight line-clamp-2 drop-shadow-lg"
+                    style={{
+                      lineHeight: "1.2",
+                      wordBreak: "break-word",
+                      overflow: "hidden",
+                      display: "-webkit-box",
+                      WebkitLineClamp: "2",
+                      WebkitBoxOrient: "vertical",
+                    }}
+                  >
+                    {project.title}
+                  </h3>
+                </div>
+              )}
 
               {/* Expanded state content */}
               {activeId === project.id && (
@@ -225,11 +258,11 @@ const Projects = () => {
       </div>
 
       {selectedOption && !selectedStyle && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
           onClick={handleClose}
         >
-          <div 
+          <div
             className="relative w-full max-w-5xl px-4"
             onClick={(e) => e.stopPropagation()}
           >
@@ -248,7 +281,7 @@ const Projects = () => {
                   style={{
                     animation: `slideUp 0.5s ease-out ${index * 0.1}s forwards`,
                     opacity: 0,
-                    transform: 'translateY(50px)',
+                    transform: "translateY(50px)",
                   }}
                   onClick={() => handleStyleClick(style)}
                 >
