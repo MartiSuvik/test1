@@ -125,7 +125,6 @@ const HowWeWork = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  const metricsRef = useRef<HTMLDivElement>(null);
   const caseStudiesRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -346,49 +345,6 @@ const HowWeWork = () => {
     return () => ctx.revert();
   }, []);
 
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
-    if (prefersReducedMotion) return;
-
-    const metricsCtx = gsap.context(() => {
-      const metrics = [
-        { el: '.metric-clients', value: 500, suffix: '+' },
-        { el: '.metric-projects', value: 1200, suffix: '+' },
-        { el: '.metric-satisfaction', value: 98, suffix: '%' },
-        { el: '.metric-years', value: 10, suffix: '+' },
-      ];
-
-      metrics.forEach(({ el, value, suffix }) => {
-        const element = document.querySelector(el);
-        if (element) {
-          element.textContent = '0';
-
-          gsap.to(element, {
-            duration: 2,
-            textContent: value,
-            roundProps: 'textContent',
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: element,
-              start: 'top 80%',
-              once: true,
-            },
-            onUpdate: function () {
-              const target = this.targets()[0];
-              if (!target) return;
-              element.textContent =
-                Math.floor(Number(target.textContent)) + suffix;
-            },
-          });
-        }
-      });
-    });
-
-    return () => metricsCtx.revert();
-  }, []);
-
   const handleSliderInteraction = (index: number, clientX: number) => {
     const slider = sliderRefs.current[index];
     if (!slider) return;
@@ -520,48 +476,6 @@ const HowWeWork = () => {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      <section ref={metricsRef} className="relative py-24 bg-[#F5F5F5]">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#F5F5F5]/10" />
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                class: 'metric-clients',
-                label: 'Satisfied Clients',
-                suffix: '+',
-              },
-              {
-                class: 'metric-projects',
-                label: 'Completed Projects',
-                suffix: '+',
-              },
-              {
-                class: 'metric-satisfaction',
-                label: 'Client Satisfaction Rate',
-                suffix: '%',
-              },
-              {
-                class: 'metric-years',
-                label: 'Years of Excellence',
-                suffix: '+',
-              },
-            ].map((metric) => (
-              <div
-                key={metric.class}
-                className="bg-white rounded-lg p-8 shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                <div
-                  className={`${metric.class} text-6xl font-serif text-[#1A1A1A] mb-2 font-bold`}
-                >
-                  0{metric.suffix}
-                </div>
-                <div className="text-gray-600 font-medium">{metric.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
