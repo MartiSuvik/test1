@@ -406,9 +406,9 @@ const HowWeWork = () => {
 
   return (
     <div className="min-h-screen bg-[#1A1A1A]">
-      <Navbar
-        isScrolled={isScrolled}
-        isMenuOpen={isMenuOpen}
+      <Navbar 
+        isScrolled={isScrolled} 
+        isMenuOpen={isMenuOpen} 
         setIsMenuOpen={setIsMenuOpen}
         triggerFooterContact={triggerFooterContact}
       />
@@ -419,7 +419,11 @@ const HowWeWork = () => {
       >
         <div className="absolute inset-0">
           <div
-            className="absolute inset-0 bg-cover bg-center transform scale-[1.1] transition-transform duration-1000 bg-[url('https://res.cloudinary.com/dnddesigncenter/image/upload/Untitled_design_5_rnem1n.avif')]"
+            className="absolute inset-0 bg-cover bg-center transform scale-[1.1] transition-transform duration-1000"
+            style={{
+              backgroundImage:
+                "url('https://res.cloudinary.com/dnddesigncenter/image/upload/Untitled_design_5_rnem1n.avif')",
+            }}
           >
             <div className="absolute inset-0 bg-black/50" />
           </div>
@@ -516,6 +520,48 @@ const HowWeWork = () => {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section ref={metricsRef} className="relative py-24 bg-[#F5F5F5]">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#F5F5F5]/10" />
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                class: 'metric-clients',
+                label: 'Satisfied Clients',
+                suffix: '+',
+              },
+              {
+                class: 'metric-projects',
+                label: 'Completed Projects',
+                suffix: '+',
+              },
+              {
+                class: 'metric-satisfaction',
+                label: 'Client Satisfaction Rate',
+                suffix: '%',
+              },
+              {
+                class: 'metric-years',
+                label: 'Years of Excellence',
+                suffix: '+',
+              },
+            ].map((metric) => (
+              <div
+                key={metric.class}
+                className="bg-white rounded-lg p-8 shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <div
+                  className={`${metric.class} text-6xl font-serif text-[#1A1A1A] mb-2 font-bold`}
+                >
+                  0{metric.suffix}
+                </div>
+                <div className="text-gray-600 font-medium">{metric.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

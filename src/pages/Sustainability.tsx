@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ParticleBackground from '../components/ParticleBackground';
@@ -301,7 +301,6 @@ const Sustainability = () => {
   const approachRef = useRef(null);
   const approachTitleRef = useRef(null);
   const approachTextRef = useRef(null);
-  const sliderRef = useRef(null);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
   const [currentSlide] = useState(0);
   const midSectionImageRef = useRef(null);
@@ -395,15 +394,6 @@ const Sustainability = () => {
       );
     }
 
-    const slides = sliderRef.current?.children;
-    if (slides) {
-      gsap.to(slides, {
-        xPercent: -100 * currentSlide,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
-    }
-
     if (midSectionImageRef.current) {
       gsap.fromTo(
         midSectionImageRef.current,
@@ -447,12 +437,24 @@ const Sustainability = () => {
     }
   };
 
+  const triggerFooterContact = () => {
+    setTimeout(() => {
+      const footerContactBtn = document.querySelector(
+        '[data-footer-contact]'
+      ) as HTMLButtonElement;
+      if (footerContactBtn) {
+        footerContactBtn.click();
+      }
+    }, 300);
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar
-        isScrolled={isScrolled}
-        isMenuOpen={isMenuOpen}
+      <Navbar 
+        isScrolled={isScrolled} 
+        isMenuOpen={isMenuOpen} 
         setIsMenuOpen={setIsMenuOpen}
+        triggerFooterContact={triggerFooterContact}
       />
 
       <section className="relative h-screen overflow-hidden">

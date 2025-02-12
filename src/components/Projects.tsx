@@ -176,7 +176,7 @@ const Projects = () => {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative min-h-screen bg-white py-20"
+      className="relative min-h-screen bg-gray-50 py-20"
     >
       <div className="max-w-7xl mx-auto px-4 mb-12">
         <h2 className="text-4xl font-serif text-center">Project Portfolio</h2>
@@ -184,7 +184,7 @@ const Projects = () => {
 
       <div
         ref={cardsRef}
-        className="flex gap-4 p-8 w-full max-w-6xl mx-auto h-[600px]"
+        className="flex gap-4 p-8 w-full max-w-6xl mx-auto h-[550px]"
       >
         {projectOptions.map((project) => (
           <div
@@ -304,6 +304,15 @@ const Projects = () => {
           onClose={handleClose}
         />
       )}
+
+      <div className="mt-12 flex justify-center space-x-4">
+        <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
+              View all
+            </button>
+        <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
+              Ask for help
+            </button>
+      </div>
     </section>
   );
 };
