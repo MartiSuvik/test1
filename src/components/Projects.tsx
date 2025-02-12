@@ -4,8 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollManager } from "../hooks/useScrollManager";
 import ImageGallery from "./ImageGallery";
-import { Link, useNavigate } from "react-router-dom";
-import Footer from '../components/Footer';
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -316,7 +315,7 @@ const Projects = () => {
           onClick={triggerFooterContact}
           className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200"
         >
-          Ask for help
+          Contact us
         </button>
       </div>
     </section>

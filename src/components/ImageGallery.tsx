@@ -395,7 +395,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
                 }}
                 className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200"
               >
-                Ask for help
+                Contact us
               </button>
             </div>
           </>
