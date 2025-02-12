@@ -17,7 +17,7 @@ const menuItems = [
   { title: 'CONTACT', href: '#footer', image: 'https://images.unsplash.com/photo-1567016557389-5246a1940bdc?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' }
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }) => {
+const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen, triggerFooterContact }) => {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const location = useLocation();
@@ -30,12 +30,6 @@ const Navbar: React.FC<NavbarProps> = ({ isScrolled, isMenuOpen, setIsMenuOpen }
 
   const isHomePage = location.pathname === '/';
 
-  function triggerFooterContact() {
-    const footerElement = document.getElementById('footer');
-    if (footerElement) {
-      footerElement.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
   return (
     <>
       <nav

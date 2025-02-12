@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { useScrollManager } from '../hooks/useScrollManager';
 import { ChevronUp, X, MapPin, Phone, Mail, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useScrollManager } from '../hooks/useScrollManager';
 
 interface FormData {
   name: string;
@@ -13,7 +9,7 @@ interface FormData {
   message: string;
 }
 
-const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
+const Footer = forwardRef<{}>((_props, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -22,37 +18,92 @@ const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
     message: ''
   });
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  
-  const expandedContentRef = useRef<HTMLDivElement>(null);
+  const expandedContentRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollY = useRef(0);
+  const scrollTimeout = useRef<number>();
   const scrollManager = useScrollManager();
   const location = useLocation();
 
+  // Handle scroll events with debouncing
   useEffect(() => {
     const handleScroll = () => {
-      if (!scrollManager.isScrollLocked()) {
+      if (scrollTimeout.current) {
+        window.cancelAnimationFrame(scrollTimeout.current);
+      }
+
+      scrollTimeout.current = window.requestAnimationFrame(() => {
+        if (scrollManager.isScrollLocked()) return;
+
+        const currentScrollY = window.scrollY;
         const windowHeight = window.innerHeight;
         const documentHeight = document.documentElement.scrollHeight;
-        const scrollTop = window.scrollY;
-        
-        const isNearBottom = scrollTop + windowHeight > documentHeight - 100;
-        setIsVisible(isNearBottom);
+        const isNearBottom = currentScrollY + windowHeight > documentHeight - 100;
+
+        if (isNearBottom) {
+          setIsVisible(true);
+        } else if (!isExpanded) {
+          setIsVisible(false);
+        }
+
+        lastScrollY.current = currentScrollY;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeout.current) {
+        window.cancelAnimationFrame(scrollTimeout.current);
+      }
+    };
+  }, [scrollManager]);
+
+  // Handle expansion animation
+  useEffect(() => {
+    if (!expandedContentRef.current) return;
+
+    const content = expandedContentRef.current;
+    content.style.display = 'block';
+
+    if (isExpanded) {
+      const height = content.scrollHeight;
+      content.style.height = '0';
+      content.offsetHeight; // Force reflow
+      content.style.height = `${height}px`;
+      content.style.opacity = '1';
+      setIsVisible(true); // Ensure footer is visible when expanded
+    } else {
+      content.style.height = `${content.scrollHeight}px`;
+      content.offsetHeight; // Force reflow
+      content.style.height = '0';
+      content.style.opacity = '0';
+    }
+  }, [isExpanded]);
+
+  // Handle transition end
+  useEffect(() => {
+    const content = expandedContentRef.current;
+    if (!content) return;
+
+    const handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.propertyName !== 'height') return;
+
+      if (!isExpanded) {
+        content.style.display = 'none';
+        // Check if we should hide the footer after collapse
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const isNearBottom = window.scrollY + windowHeight > documentHeight - 100;
+        if (!isNearBottom) {
+          setIsVisible(false);
+        }
       } else {
-        setIsVisible(false);
+        content.style.height = 'auto';
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (expandedContentRef.current) {
-      gsap.to(expandedContentRef.current, {
-        height: isExpanded ? 'auto' : '0',
-        duration: 0.4,
-        ease: 'power2.inOut'
-      });
-    }
+    content.addEventListener('transitionend', handleTransitionEnd);
+    return () => content.removeEventListener('transitionend', handleTransitionEnd);
   }, [isExpanded]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -92,10 +143,19 @@ const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
   return (
     <footer
       id="footer"
-      ref={ref}  // Ref attached here
-      className={`fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-lg transition-all duration-300 ease-out transform ${
+      ref={(el) => {
+        if (ref) {
+          if (typeof ref === 'function') {
+            ref(el);
+          } else {
+            // Ensure we cast to MutableRefObject with correct type
+          }
+        }
+        Footer;
+      }}
+      className={`fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-lg transform ${
         isVisible ? 'translate-y-0' : 'translate-y-full'
-      }`}
+      } transition-transform duration-300 ease-out will-change-transform`}
       style={{ zIndex: 30 }}
     >
       {/* Minimized Footer */}
@@ -115,7 +175,10 @@ const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
 
           <div className="flex items-center space-x-6">
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={() => {
+                setIsExpanded(!isExpanded);
+                setIsVisible(true); // Ensure footer is visible when expanding
+              }}
               data-footer-contact
               className="px-6 py-2 bg-[#C5A267] hover:bg-[#B49157] text-white text-sm font-medium rounded-lg transition-all duration-200 flex items-center space-x-2"
             >
@@ -137,8 +200,13 @@ const Footer = forwardRef<HTMLDivElement, {}>((_props, ref) => {
       {/* Expanded Footer */}
       <div
         ref={expandedContentRef}
-        className="overflow-hidden h-0"
-        style={{ backgroundColor: '#fafafa' }}
+        className="overflow-hidden transition-all duration-300 ease-out"
+        style={{
+          height: 0,
+          opacity: 0,
+          backgroundColor: '#fafafa',
+          willChange: 'height, opacity'
+        }}
       >
         <div className="max-w-[1200px] mx-auto px-6 py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
