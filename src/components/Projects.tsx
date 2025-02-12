@@ -4,6 +4,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollManager } from "../hooks/useScrollManager";
 import ImageGallery from "./ImageGallery";
+import { Link, useNavigate } from "react-router-dom";
+import Footer from '../components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,18 +24,9 @@ interface Style {
 }
 
 const styles: Style[] = [
-  {
-    id: 1,
-    name: "Modern",
-  },
-  {
-    id: 2,
-    name: "Traditional",
-  },
-  {
-    id: 3,
-    name: "Ardeco",
-  },
+  { id: 1, name: "Modern" },
+  { id: 2, name: "Traditional" },
+  { id: 3, name: "Ardeco" },
 ];
 
 const projectOptions: ProjectOption[] = [
@@ -41,30 +34,24 @@ const projectOptions: ProjectOption[] = [
     id: 1,
     title: "Kitchen",
     subtitle: "Culinary Excellence",
-    description:
-      "Modern kitchens designed for both functionality and aesthetics.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/Kitchen/kitchen_modern_5.jpg",
+    description: "Modern kitchens designed for both functionality and aesthetics.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/Kitchen/kitchen_modern_5.jpg",
     hasContent: true,
   },
   {
     id: 2,
     title: "Living",
     subtitle: "Elegant Comfort",
-    description:
-      "Experience the perfect blend of luxury and comfort in our meticulously designed living spaces.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/Living%20Room/livingroom_traditional_5.avif",
+    description: "Experience the perfect blend of luxury and comfort in our meticulously designed living spaces.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/Living%20Room/livingroom_traditional_5.avif",
     hasContent: true,
   },
   {
     id: 3,
     title: "Dining",
     subtitle: "Sophisticated Dining",
-    description:
-      "Create memorable moments in our elegantly designed dining spaces.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/3e48fefc776aeb5c41fc951ab88a7d85_xgf8bc.jpg",
+    description: "Create memorable moments in our elegantly designed dining spaces.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/3e48fefc776aeb5c41fc951ab88a7d85_xgf8bc.jpg",
     hasContent: true,
   },
   {
@@ -72,47 +59,38 @@ const projectOptions: ProjectOption[] = [
     title: "Bedroom",
     subtitle: "Luxury Designs",
     description: "Transform your bedroom into a personal sanctuary.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/Bedroom/bedroom_modern_1.avif",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/Bedroom/bedroom_modern_1.avif",
     hasContent: true,
   },
   {
     id: 5,
     title: "Lighting",
     subtitle: "Outshine the standard",
-    description:
-      "Illuminate your space with our carefully curated lighting solutions.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/led-lighting-1_0_sklvzy.jpg",
+    description: "Illuminate your space with our carefully curated lighting solutions.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/led-lighting-1_0_sklvzy.jpg",
     hasContent: true,
   },
   {
     id: 6,
     title: "Bath",
     subtitle: "Inner peace of Italy",
-    description:
-      "Luxurious bathrooms that combine functionality with spa-like tranquility.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/Greenery-as-fresh-bathroom-decor-ideas-by-Decorilla-designer-Casey-H._i7fhfe.jpg",
+    description: "Luxurious bathrooms that combine functionality with spa-like tranquility.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/Greenery-as-fresh-bathroom-decor-ideas-by-Decorilla-designer-Casey-H._i7fhfe.jpg",
     hasContent: true,
   },
   {
     id: 7,
     title: "Outdoor",
     subtitle: "Outdoor Elegance",
-    description:
-      "Beautifully designed outdoor spaces for relaxation and entertainment.",
-    image:
-      "https://res.cloudinary.com/dnddesigncenter/image/upload/Outdoor/outdoor_space.jpg",
+    description: "Beautifully designed outdoor spaces for relaxation and entertainment.",
+    image: "https://res.cloudinary.com/dnddesigncenter/image/upload/Outdoor/outdoor_space.jpg",
     hasContent: true,
   },
 ];
 
 const Projects = () => {
   const [activeId, setActiveId] = useState<number>(1);
-  const [selectedOption, setSelectedOption] = useState<ProjectOption | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] = useState<ProjectOption | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
@@ -172,6 +150,28 @@ const Projects = () => {
     toggleScrollLock(false);
   };
 
+  // *** FOOTER SCROLL LOGIC ***
+  const triggerFooterContact = (): void => {
+    const footerElement = document.querySelector('#footer');
+    if (footerElement instanceof HTMLElement) {
+      // Calculate the total scroll height and scroll to the bottom
+      const scrollHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      window.scrollTo({
+        top: scrollHeight - windowHeight,
+        behavior: 'smooth'
+      });
+      
+      // After a short delay, trigger the footer's contact button
+      setTimeout(() => {
+        const footerContactBtn = document.querySelector('[data-footer-contact]') as HTMLButtonElement | null;
+        if (footerContactBtn) {
+          footerContactBtn.click();
+        }
+      }, 800);
+    }
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -200,13 +200,12 @@ const Projects = () => {
                 className="w-full h-full bg-cover bg-center transition-transform duration-500"
                 style={{
                   backgroundImage: `url(${project.image})`,
-                  transform:
-                    activeId === project.id ? "scale(1)" : "scale(1.2)",
+                  transform: activeId === project.id ? "scale(1)" : "scale(1.2)",
                 }}
               />
             </div>
 
-            {/* Dark overlay for better text readability */}
+            {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/30" />
 
             {/* Pulse overlay for active card */}
@@ -305,13 +304,20 @@ const Projects = () => {
         />
       )}
 
+      {/* Buttons at the bottom */}
       <div className="mt-12 flex justify-center space-x-4">
-        <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
-              View all
-            </button>
-        <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
-              Ask for help
-            </button>
+        <Link to="/projects">
+          <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
+            View all
+          </button>
+        </Link>
+
+        <button
+          onClick={triggerFooterContact}
+          className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200"
+        >
+          Ask for help
+        </button>
       </div>
     </section>
   );

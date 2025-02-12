@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import Airtable from 'airtable';
+import { Link } from 'react-router-dom';
 
 interface Photo {
   id: string;
@@ -200,6 +201,28 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  // *** FOOTER SCROLL LOGIC ***
+  const triggerFooterContact = (): void => {
+    const footerElement = document.querySelector('#footer');
+    if (footerElement instanceof HTMLElement) {
+      // Calculate the total scroll height and scroll to the bottom
+      const scrollHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      window.scrollTo({
+        top: scrollHeight - windowHeight,
+        behavior: 'smooth'
+      });
+      
+      // After a short delay, trigger the footer's contact button
+      setTimeout(() => {
+        const footerContactBtn = document.querySelector('[data-footer-contact]') as HTMLButtonElement | null;
+        if (footerContactBtn) {
+          footerContactBtn.click();
+        }
+      }, 800);
+    }
+  };
+
   if (error) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-90 z-50">
@@ -352,6 +375,28 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ category, style, onClose })
                   );
                 })}
               </div>
+            </div>
+
+            {/* Buttons at the bottom */}
+            <div className="mt-12 flex justify-center space-x-4">
+              <Link to="/projects">
+                <button className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200">
+                  View all
+                </button>
+              </Link>
+
+              <button
+                onClick={() => {
+                  setIsVisible(false);
+                  setTimeout(() => {
+                    onClose();
+                    triggerFooterContact();
+                  }, 300); // Wait for fade out animation
+                }}
+                className="px-8 py-3 bg-[#B49157] text-white text-sm uppercase tracking-wider hover:bg-[#A38047] transition-colors duration-200"
+              >
+                Ask for help
+              </button>
             </div>
           </>
         ) : null}
