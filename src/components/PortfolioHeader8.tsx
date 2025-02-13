@@ -7,7 +7,7 @@ const PortfolioHeader8: React.FC = () => {
     <section id="relume" className="relative px-[5%]">
       <div className="absolute inset-0 -z-[1]">
         <img
-          src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+          src="https://res.cloudinary.com/dnddesigncenter/image/upload/Kitchen_ArtDeco_32_nkpgsz.avif"
           alt="Relume placeholder image 1"
           className="size-full object-cover"
         />
@@ -18,7 +18,7 @@ const PortfolioHeader8: React.FC = () => {
           <div className="grid grid-cols-1 items-start gap-12 py-16 md:items-end md:py-24 lg:gap-x-20 lg:py-28">
             <div className="mx-auto">
               <h1 className="mb-5 text-6xl font-bold text-text-alternative md:mb-6 md:text-9xl lg:text-10xl">
-                Elegant Living Space
+                Projects
               </h1>
               <p className="text-text-alternative md:text-md">
                 Discover our curated projects that redefine modern luxury in

@@ -9,7 +9,12 @@ interface FormData {
   message: string;
 }
 
-const Footer = forwardRef<{}>((_props, ref) => {
+interface FooterProps {
+  id?: string;
+  // Add any additional props if needed
+}
+
+const Footer = forwardRef<HTMLFooterElement, FooterProps>((_props, ref) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -148,7 +153,7 @@ const Footer = forwardRef<{}>((_props, ref) => {
           if (typeof ref === 'function') {
             ref(el);
           } else {
-            // Ensure we cast to MutableRefObject with correct type
+            (ref as React.MutableRefObject<HTMLFooterElement | null>).current = el;
           }
         }
         Footer;
